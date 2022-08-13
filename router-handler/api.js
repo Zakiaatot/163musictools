@@ -175,16 +175,19 @@ exports.daka=async (req,res)=>{
         if(result2.body.code==200){
           for (var j=0;j<result2.body.playlist.tracks.length;j++){
             const songid=result2.body.playlist.tracks[j].id
-            const result3=await scrobble({
+            scrobble({
               id:songid,
               sourceid:listid,
               time:61,
               cookie:req.session.cookiedata
+            }).then((result3)=>{
+              if(result3.body.code==200) {
+                count++
+                global.progess[id]=count
+              }
             })
-            if(result3.body.code==200) {
-              count++
-              global.progess[id]=count
-              console.log(count)
+            
+            
               if(count>=350) {
                 delete global.progess[id]
                 const result=await user_level({
@@ -201,7 +204,6 @@ exports.daka=async (req,res)=>{
               }
             }
           }
-        }
       }
       return res.error({
         code:500,
