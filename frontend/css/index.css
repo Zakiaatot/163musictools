@@ -1,0 +1,572 @@
+body {
+	margin: 0;
+	background-color: #fbfbfb;
+	text-align: center;
+}
+
+.mystyle {
+	/* variables */
+	--color-primary: #44a0b3;
+	--color-grey: rgba(68, 160, 179, .06);
+	--color-dark: rgba(68, 160, 179, .5);
+	--color-semidark: rgba(68, 160, 179, .5);
+
+	text-align: center;
+	margin: 30px 0 0 0;
+	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+	font-size: 14px;
+}
+
+.mystyle .mystyle-wrapper {
+	-webkit-transition: all 1s;
+	-o-transition: all 1s;
+	transition: all 1s;
+	-webkit-perspective: 1000px;
+	        perspective: 1000px;
+	position: relative;
+	height: 100%;
+	width: 360px;
+	margin: 0 auto;
+}
+
+.mystyle.mystyle-red {
+	--color-primary: #ff6464;
+	--color-grey: rgba(255, 100, 100, .06);
+	--color-dark: rgba(255, 100, 100, .8);
+	--color-semidark: rgba(255, 100, 100, .55);
+}
+
+.text-foot div{
+	margin-bottom: 5px !important;
+}
+
+.mystyle * {
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+.mystyle .mystyle-brand {
+	overflow: hidden;
+	width: 100px;
+	height: 100px;
+	margin: 0 auto -50px auto;
+	border-radius: 50%;
+	-webkit-box-shadow: 0 4px 40px rgba(0, 0, 0, .07);
+	        box-shadow: 0 4px 40px rgba(0, 0, 0, .07);
+	background-color: #fff;
+	z-index: 1;
+	position: relative;
+}
+
+.mystyle .mystyle-brand img {
+	width: 100%;
+}
+
+.avatar{
+	width: 100%;
+	height: 100%;
+	border-radius: 100%;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	overflow: hidden;
+}
+
+
+
+.mystyle .mystyle-box {
+	width: 100%;
+	position: absolute;
+	left: 0;
+}
+
+.mystyle .mystyle-box-inner {
+	background-color: #fff;
+	-webkit-box-shadow: 0 7px 25px rgba(0, 0, 0, .08);
+	        box-shadow: 0 7px 25px rgba(0, 0, 0, .08);
+	padding: 60px 25px 25px 25px;
+	text-align: left;
+	border-radius: 3px;
+}
+
+.mystyle .mystyle-box::after {
+	content: ' ';
+	-webkit-box-shadow: 0 0 25px rgba(0, 0, 0, .1);
+	        box-shadow: 0 0 25px rgba(0, 0, 0, .1);
+	-webkit-transform: translate(0, -92.6%) scale(.88);
+	    -ms-transform: translate(0, -92.6%) scale(.88);
+	        transform: translate(0, -92.6%) scale(.88);
+	border-radius: 3px;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	z-index: -1;
+}
+
+.mystyle .mystyle-box.mystyle-flip {
+	-webkit-transform: rotate3d(0, 1, 0, -180deg);
+	        transform: rotate3d(0, 1, 0, -180deg);
+	display: none;
+	opacity: 0;
+}
+
+.mystyle .mystyle-box p {
+	color: var(--color-semidark);
+	font-weight: 700;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.mystyle .mystyle-box .mystyle-group {
+	margin-bottom: 30px;
+}
+
+.mystyle .mystyle-box label {
+	margin-bottom: 5px;
+	display: inline-block;
+	width: 100%;
+	color: var(--color-semidark);
+	font-weight: 700;
+}
+
+.mystyle .mystyle-box label a {
+	float: right;
+}
+
+.mystyle .mystyle-box .mystyle-input {
+	background-color: var(--color-grey);
+	color: var(--color-dark);
+	border: none;
+	border-radius: 3px;
+	padding: 15px 20px;
+	width: 100%;
+	outline: 0;
+}
+
+.elmbtn{
+	width: 100%;
+	min-height: 50px;
+	margin: 5px auto;
+	color: #fff !important;
+	margin: 5px auto !important;
+	padding: 15px !important;
+	border-radius: 3px !important;
+	font-weight: 700 !important;
+}
+
+
+
+.mystyle .text-foot {
+	text-align: center;
+	padding: 10px;
+	font-weight: 700;
+	margin-top: 20px;
+	color: var(--color-semidark);
+}
+
+
+
+
+
+/* animation */
+.mystyle .mystyle-box.mystyle-animated {
+	-webkit-animation-name: mystyleAnimated;
+	        animation-name: mystyleAnimated;
+	-webkit-animation-duration: 1s;
+	        animation-duration: 1s;
+	-webkit-animation-fill-mode: forwards;
+	        animation-fill-mode: forwards;
+	-webkit-animation-timing-function: ease-in-out;
+	        animation-timing-function: ease-in-out;
+}
+
+.mystyle .mystyle-box.mystyle-animatedback {
+	-webkit-animation-name: mystyleAnimatedBack;
+	        animation-name: mystyleAnimatedBack;
+	-webkit-animation-duration: 1s;
+	        animation-duration: 1s;
+	-webkit-animation-fill-mode: forwards;
+	        animation-fill-mode: forwards;
+	-webkit-animation-timing-function: ease-in-out;
+	        animation-timing-function: ease-in-out;
+}
+
+.mystyle .mystyle-box.mystyle-animated-flip {
+	-webkit-animation-name: mystyleAnimatedFlip;
+	        animation-name: mystyleAnimatedFlip;
+	-webkit-animation-duration: 1s;
+	        animation-duration: 1s;
+	-webkit-animation-fill-mode: forwards;
+	        animation-fill-mode: forwards;
+	-webkit-animation-timing-function: ease-in-out;
+	        animation-timing-function: ease-in-out;
+}
+
+.mystyle .mystyle-box.mystyle-animated-flipback {
+	-webkit-animation-name: mystyleAnimatedFlipBack;
+	        animation-name: mystyleAnimatedFlipBack;
+	-webkit-animation-duration: 1s;
+	        animation-duration: 1s;
+	-webkit-animation-fill-mode: forwards;
+	        animation-fill-mode: forwards;
+	-webkit-animation-timing-function: ease-in-out;
+	        animation-timing-function: ease-in-out;
+}
+
+.mystyle .mystyle-brand.mystyle-animated {
+	-webkit-animation-name: mystyleBrandAnimated;
+	        animation-name: mystyleBrandAnimated;
+	-webkit-animation-duration: 1s;
+	        animation-duration: 1s;
+	-webkit-animation-fill-mode: forwards;
+	        animation-fill-mode: forwards;
+	-webkit-animation-timing-function: ease-in-out;
+	        animation-timing-function: ease-in-out;
+}
+
+.mystyle .mystyle-group.password-group {
+	-webkit-transition: all 1s;
+	-o-transition: all 1s;
+	transition: all 1s;
+}
+
+.mystyle .mystyle-group.password-group.mystyle-animated {
+	-webkit-animation-name: mystylePasswordAnimated;
+	        animation-name: mystylePasswordAnimated;
+	-webkit-animation-duration: 1s;
+	        animation-duration: 1s;
+	-webkit-animation-fill-mode: forwards;
+	        animation-fill-mode: forwards;
+	-webkit-animation-timing-function: ease-in-out;
+	        animation-timing-function: ease-in-out;
+	-webkit-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	        transform-origin: 0 0;
+}
+
+.mystyle .mystyle-group.password-group.mystyle-animated-back {
+	-webkit-animation-name: mystylePasswordAnimatedBack;
+	        animation-name: mystylePasswordAnimatedBack;
+	-webkit-animation-duration: 1s;
+	        animation-duration: 1s;
+	-webkit-animation-fill-mode: forwards;
+	        animation-fill-mode: forwards;
+	-webkit-animation-timing-function: ease-in-out;
+	        animation-timing-function: ease-in-out;
+	-webkit-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	        transform-origin: 0 0;
+}
+
+/* keyframes */
+@-webkit-keyframes mystyleAnimated {
+	0% {
+		-webkit-transform: rotate3d(0);
+		        transform: rotate3d(0);
+	}
+	99% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: rotate3d(0, 1, 0, 180deg);
+		        transform: rotate3d(0, 1, 0, 180deg);
+	}
+}
+@keyframes mystyleAnimated {
+	0% {
+		-webkit-transform: rotate3d(0);
+		        transform: rotate3d(0);
+	}
+	99% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: rotate3d(0, 1, 0, 180deg);
+		        transform: rotate3d(0, 1, 0, 180deg);
+	}
+}
+
+@-webkit-keyframes mystyleAnimatedBack {
+	0% {
+		opacity: 0;
+		-webkit-transform: rotate3d(0, 1, 0, 180deg);
+		        transform: rotate3d(0, 1, 0, 180deg);
+	}
+	99% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 1;
+		-webkit-transform: rotate3d(0);
+		        transform: rotate3d(0);
+	}
+}
+
+@keyframes mystyleAnimatedBack {
+	0% {
+		opacity: 0;
+		-webkit-transform: rotate3d(0, 1, 0, 180deg);
+		        transform: rotate3d(0, 1, 0, 180deg);
+	}
+	99% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 1;
+		-webkit-transform: rotate3d(0);
+		        transform: rotate3d(0);
+	}
+}
+
+@-webkit-keyframes mystyleAnimatedFlip {
+	0% {
+		-webkit-transform: rotate3d(0, 1, 0, -180deg);
+		        transform: rotate3d(0, 1, 0, -180deg);
+		opacity: 0;
+	}
+	99% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 1;
+		-webkit-transform: rotate3d(0, 0, 0, 180deg);
+		        transform: rotate3d(0, 0, 0, 180deg);
+	}
+}
+
+@keyframes mystyleAnimatedFlip {
+	0% {
+		-webkit-transform: rotate3d(0, 1, 0, -180deg);
+		        transform: rotate3d(0, 1, 0, -180deg);
+		opacity: 0;
+	}
+	99% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 1;
+		-webkit-transform: rotate3d(0, 0, 0, 180deg);
+		        transform: rotate3d(0, 0, 0, 180deg);
+	}
+}
+
+@-webkit-keyframes mystyleAnimatedFlipBack {
+	0% {
+		opacity: 1;
+		-webkit-transform: rotate3d(0, 0, 0, 180deg);
+		        transform: rotate3d(0, 0, 0, 180deg);
+	}
+	95% {
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: rotate3d(0, 1, 0, -180deg);
+		        transform: rotate3d(0, 1, 0, -180deg);
+		opacity: 0;
+	}
+}
+
+@keyframes mystyleAnimatedFlipBack {
+	0% {
+		opacity: 1;
+		-webkit-transform: rotate3d(0, 0, 0, 180deg);
+		        transform: rotate3d(0, 0, 0, 180deg);
+	}
+	95% {
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: rotate3d(0, 1, 0, -180deg);
+		        transform: rotate3d(0, 1, 0, -180deg);
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes mystyleBrandAnimated {
+	0% {
+		-webkit-transform: translate(0, 0);
+		        transform: translate(0, 0);
+	}
+	50% {
+		-webkit-transform: translate(0, -120px);
+		        transform: translate(0, -120px);
+	}
+	100% {
+		-webkit-transform: translate(0, 0);
+		        transform: translate(0, 0);
+	}
+}
+
+@keyframes mystyleBrandAnimated {
+	0% {
+		-webkit-transform: translate(0, 0);
+		        transform: translate(0, 0);
+	}
+	50% {
+		-webkit-transform: translate(0, -120px);
+		        transform: translate(0, -120px);
+	}
+	100% {
+		-webkit-transform: translate(0, 0);
+		        transform: translate(0, 0);
+	}
+}
+
+@-webkit-keyframes mystylePasswordAnimated {
+	0% {
+		-webkit-transform: rotate3d(0, 0, 0, 0);
+		        transform: rotate3d(0, 0, 0, 0);
+	}
+	30% {
+		opacity: 1;
+	}
+	60% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: rotate3d(1, 0, 0, -180deg);
+		        transform: rotate3d(1, 0, 0, -180deg);
+		z-index: -1;
+	}
+}
+
+@keyframes mystylePasswordAnimated {
+	0% {
+		-webkit-transform: rotate3d(0, 0, 0, 0);
+		        transform: rotate3d(0, 0, 0, 0);
+	}
+	30% {
+		opacity: 1;
+	}
+	60% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: rotate3d(1, 0, 0, -180deg);
+		        transform: rotate3d(1, 0, 0, -180deg);
+		z-index: -1;
+	}
+}
+
+@-webkit-keyframes mystylePasswordAnimatedBack {
+	0% {
+		opacity: 0;
+		-webkit-transform: rotate3d(1, 0, 0, -180deg);
+		        transform: rotate3d(1, 0, 0, -180deg);
+	}
+	40% {
+		opacity: 0;
+	}
+	60% {
+		opacity: 1;
+	}
+	100% {
+		-webkit-transform: rotate3d(0, 0, 0, 0);
+		        transform: rotate3d(0, 0, 0, 0);
+	}
+}
+
+@keyframes mystylePasswordAnimatedBack {
+	0% {
+		opacity: 0;
+		-webkit-transform: rotate3d(1, 0, 0, -180deg);
+		        transform: rotate3d(1, 0, 0, -180deg);
+	}
+	40% {
+		opacity: 0;
+	}
+	60% {
+		opacity: 1;
+	}
+	100% {
+		-webkit-transform: rotate3d(0, 0, 0, 0);
+		        transform: rotate3d(0, 0, 0, 0);
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.mystyle .mystyle-wrapper {
+		width: 100%;
+	}
+	.mystyle .mystyle-box {
+		padding: 0 10px;
+	}
+}
+
+.title{
+	display: block;
+	font-size: x-large;
+	color:rgb(135, 84, 84);
+	margin: 5px auto;
+	text-align: center;
+}
+
+.subtitle{
+	display: block;
+	color: #ff6464;
+	margin: 5px auto 15px;
+	text-align: center;
+}
+
+.nickname{
+	display: block;
+	font-size: x-large;
+	color:rgb(11, 10, 10);
+	margin: 10px auto 5px;
+	text-align: center;
+}
+
+.signature{
+	display: block;
+	color: #827a7a;
+	margin: 5px auto 20px;
+	text-align: center;
+	font-weight: 700;
+}
+
+.level{
+	margin: 5px auto;
+	text-align: center;
+	font-size: small;
+	font-weight:700;
+}
+
+.info{
+	margin: 5px auto 15px;
+	font-size: small;
+	font-weight: 700;
+}
+
+.info div:first-child{
+	display: inline-block;
+	width: 30%;
+}
+
+.info .playcount{
+	display: inline-block;
+	width: 33%;
+}
+
+.info .logincount{
+	display: inline-block;
+	width: 33%;
+}
+
+.elmmsg{
+	margin: 5px auto !important; 
+}
+
+.icon{
+	float: right;
+}
+
+#logout{
+	margin-bottom: 20px !important;
+}

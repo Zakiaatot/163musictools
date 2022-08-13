@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>163Musictools</title>
+	<link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="./css/index.css">
+	<link rel="stylesheet" href="./css/element-plus.css">
+</head>
+
+<body>
+	<div id="app">
+		<div class="mystyle mystyle-red">
+			<div class="mystyle-brand">
+				<img class="avatar" :src="avatarsrc" alt="avatar">
+			</div>
+			<div class="mystyle-wrapper">
+
+
+				<div class="mystyle-box mystyle-index">
+					<div class="mystyle-box-inner">
+							<h1 class="nickname">用户昵称</h1>
+							<div class="level">等级</div>
+							<h6 class="signature">签名</h6>
+							<div class="info">
+								<div>升级还需</div>
+								<div class="playcount">播放量:</div>
+								<div class="logincount">登录天数:</div>
+							</div>
+		
+								<div v-show="showstatus">
+									<el-alert  :title="elmmsg2.title" :type="elmmsg2.type"  :show-icon="elmmsg2.show" class="elmmsg" :closable="false" />
+								</div>
+								<div v-show="!showstatus">
+									<el-progress :text-inside="true" :stroke-width="20" :percentage="progresspercentage" status="success">
+										<span id="progressmsg"></span>
+									</el-progress>
+								</div>
+
+							<el-button id="signin" :loading="signinbtnstatus" color="#ff6464" type="primary" class="elmbtn" @click.prevent="signin">签到</el-button>
+							<el-button id="daka" :loading="dakabtnstatus" color="#ff6464" type="primary" class="elmbtn" @click.prevent="daka">打卡</el-button>
+		
+							<div class="text-foot">
+								<el-button id="logout" :loading="logoutbtnstatus" color="#ff6464" type="primary" class="elmbtn" @click.prevent="logout">退出登录</el-button>
+								
+								<div>2022</div>
+								<div><el-link type="success" href="https://hackerfly.cn">@zakiaatot</el-link></div> 
+								<div><a href="https://github.com/zakiaatot/163MusicTools"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/zakiaatot/163MusicTools?style=social"></a></div>
+							</div>
+					</div>
+				</div>
+
+				<div class="mystyle-box mystyle-login">
+					<div class="mystyle-box-inner">
+							<h1 class="title">163Musictools</h1>
+							<h4 class="subtitle">网易云一键签到打卡三百首歌工具</h4>
+							<div><el-alert :title="elmmsg1.title" :type="elmmsg1.type"  :show-icon="elmmsg1.show" class="elmmsg" center :closable="false" /></div>
+							<div class="mystyle-group">
+								<label>手机号： </label>
+								<input type="text" autocomplete="text" name="phone" class="mystyle-input" v-model="phoneinput" @input="phonelisten" placeholder="请输入11位数字手机号">
+							</div>
+							<div class="mystyle-group password-group">
+								<label>
+									密码：
+									<el-tooltip content="请放心，密码将在本地进行md5加密再上传至服务器" placement="top" effect="light">
+										<el-icon class="icon" :size="20" >
+											<Warning />
+										</el-icon>
+									</el-tooltip>
+								</label>
+								<input type="password" name="password" autocomplete="current-password" class="mystyle-input" v-model="passwordinput" @input="passwordlisten" placeholder="请输入6位及以上密码">
+							</div>
+							
+							<el-button id="loginbtn" :loading="loginbtnstatus" color="#ff6464" type="primary" class="elmbtn" @click.prevent="login" :disabled="reg">登录</el-button>
+
+							
+							
+
+							<div class="text-foot">
+								<div>2022</div>
+								<div><el-link type="success" href="https://hackerfly.cn">@zakiaatot</el-link></div>
+								<div><a href="https://github.com/zakiaatot/163MusicTools"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/zakiaatot/163MusicTools?style=social"></a></div>
+							</div>
+					</div>
+				</div>
+
+			</div>
+			
+		</div>
+	</div>
+	
+	<script src="./js/vue3.js"></script>
+	<script src="./js/element-plus.js"></script>
+	<script src="./js/elementplus-icon.min.js"></script>
+	<script src="./js/axios.js"></script>
+	<script src="./js/md5.min.js"></script>
+	<script src="./js/index.js"></script>
+	
+
+</body>
+</html>
