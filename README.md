@@ -22,21 +22,21 @@
 
 
 ## **二、展示及技术栈**
-[部署的Demo地址](http://163.hackerfly.cn) 
-
-注意：因为鄙人还没备案,被屏蔽尝试多刷新几次就能进
+[部署的Demo地址](http://124.71.23.192:9001/) 
 
 
-简单的交互UI，使用 [Element-plus](https://github.com/element-plus/element-plus),由于是SPA，故采用直接引入式Vue，更多细节请看  [Demo地址](http://163.hackerfly.cn),总体来讲 nodejs+express+vue3+elementplus
+
+
+简单的交互UI，使用 [Element-plus](https://github.com/element-plus/element-plus),由于是SPA，故采用直接引入式Vue，更多细节请看  [Demo地址](http://124.71.23.192:9001/),总体来讲 nodejs+express+vue3+elementplus
 
 登录页:
-![登录页](https://BOILEDDOG.TOP/public/login.png)
+![登录页](http://124.71.23.192:9001/img/login.png)
 
 首页:
-![首页](https://BOILEDDOG.TOP/public/index.png)
+![首页](http://124.71.23.192:9001/img/index.png)
 
 打卡:
-![打卡](https://BOILEDDOG.TOP/public/daka.png)
+![打卡](http://124.71.23.192:9001/img/daka.png)
 
 
 
