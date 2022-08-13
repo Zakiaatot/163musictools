@@ -1,6 +1,6 @@
 {
   "name": "163musictools",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "网易云音乐一键签到 打卡 300首 小工具",
   "type": "commonjs",
   "main": "index.js",
