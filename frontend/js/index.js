@@ -256,10 +256,10 @@ const APP={
             //轮询
             const promsg=document.querySelector("#progressmsg")
             setTimeout(() => {
-                this.showstatus=false
                 var lx=setInterval(() => {
                     $axios.post('/dakaprogress').then((response)=>{
                         if(response.data.msg.count){
+                                this.showstatus=false
                                 this.progresspercentage=parseInt((response.data.msg.count/350)*100)
                                 promsg.innerHTML="已听："+response.data.msg.count+"首"
                         }
@@ -267,7 +267,7 @@ const APP={
                                 clearInterval(lx)
                         }
                         })
-                }, 500)
+                }, 100)
             },1000);
         },
         logout(){
