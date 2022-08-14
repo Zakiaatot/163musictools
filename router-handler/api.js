@@ -1,268 +1,253 @@
-const { login_cellphone, logout, user_level ,daily_signin,personalized,playlist_detail,scrobble} = require('NeteaseCloudMusicApi')
+/* eslint-disable camelcase */
+const { login_cellphone, logout, user_level, daily_signin, personalized, playlist_detail, scrobble } = require('NeteaseCloudMusicApi')
 
-exports.login=async (req,res)=>{
-  if(!req.session.cookiedata||req.session.isLogin==false){
-    const data=req.body
-    if(!data.phone||!data.password){
+exports.login = async (req, res) => {
+  if (!req.session.cookiedata || req.session.isLogin === false) {
+    const data = req.body
+    if (!data.phone || !data.password) {
       return res.error({
-        code:400,
-        msg:'账号或密码为空',
+        code: 400,
+        msg: '账号或密码为空'
       })
     }
-    try{
+    try {
       const result = await login_cellphone({
         phone: data.phone,
         md5_password: data.password,
-        countrycode:data.countrycode||86
+        countrycode: data.countrycode || 86
       })
-      if(result.body.code!=200) return res.error(result.body)
-      req.session.isLogin=true
-      const result1=await user_level({
-        cookie:result.body.cookie
+      if (result.body.code !== 200) return res.error(result.body)
+      req.session.isLogin = true
+      const result1 = await user_level({
+        cookie: result.body.cookie
       })
-      if(result1.body.code!=200) return res.error(result.body)
-      req.session.cookiedata=result.body.cookie
-      req.session.userdata={
-        id:result.body.profile.userId,
-        nickname:result.body.profile.nickname,
-        avatarUrl:result.body.profile.avatarUrl,
-        signature:result.body.profile.signature,
-        playcount:result1.body.data.nextPlayCount-result1.body.data.nowPlayCount,
-        logincount:result1.body.data.nextLoginCount-result1.body.data.nowLoginCount,
-        level:result1.body.data.level,
+      if (result1.body.code !== 200) return res.error(result.body)
+      req.session.cookiedata = result.body.cookie
+      req.session.userdata = {
+        id: result.body.profile.userId,
+        nickname: result.body.profile.nickname,
+        avatarUrl: result.body.profile.avatarUrl,
+        signature: result.body.profile.signature,
+        playcount: result1.body.data.nextPlayCount - result1.body.data.nowPlayCount,
+        logincount: result1.body.data.nextLoginCount - result1.body.data.nowLoginCount,
+        level: result1.body.data.level
       }
       return res.success({
-        code:200,
-        msg:'登录成功（切勿短时间重复登陆，容易账号异常）'
+        code: 200,
+        msg: '登录成功（切勿短时间重复登陆，容易账号异常）'
       })
-    } 
-    catch (error) {
+    } catch (error) {
       console.log(error)
-      return res.error(error.body.message?error.body.message:"未知错误")
+      return res.error(error.body.message ? error.body.message : '未知错误')
     }
   }
   return res.error({
-    code:500,
-    msg:'你已经登陆过了，请手动注销登录或手动清除cookie（切勿短时间重复登陆，容易账号异常）'
+    code: 500,
+    msg: '你已经登陆过了，请手动注销登录或手动清除cookie（切勿短时间重复登陆，容易账号异常）'
   })
 }
 
-exports.logout=async (req,res)=>{
-  if(req.session.isLogin==true){
-    try{
-      const lout= await logout({
-      cookie:req.session.cookiedata
+exports.logout = async (req, res) => {
+  if (req.session.isLogin === true) {
+    try {
+      const lout = await logout({
+        cookie: req.session.cookiedata
       })
-      if(lout.body.code!=200){
+      if (lout.body.code !== 200) {
         return res.error({
-          code:500,
-          msg:'登出失败（请稍后重试）'
+          code: 500,
+          msg: '登出失败（请稍后重试）'
         })
       }
-    } 
-    catch(err){
+    } catch (err) {
       return res.error({
-        code:500,
-        msg:err.body?err.body:err
+        code: 500,
+        msg: err.body ? err.body : err
       })
     }
     res.clearCookie('zakiaatot')
     return res.success({
-      code:200,
-      msg:'成功退出登录'
+      code: 200,
+      msg: '成功退出登录'
     })
   }
   return res.error({
-    code:500,
-    msg:'你还没登陆，请登录'
+    code: 500,
+    msg: '你还没登陆，请登录'
   })
 }
 
-exports.checklog=(req,res)=>{
-  if(req.session.isLogin==true){
+exports.checklog = (req, res) => {
+  if (req.session.isLogin === true) {
     return res.success({
-      code:200,
-      msg:'登录状态'
+      code: 200,
+      msg: '登录状态'
     })
   }
   return res.success({
-    code:200,
-    msg:'未登录状态'
+    code: 200,
+    msg: '未登录状态'
   })
 }
 
-exports.checkinfo=(req,res)=>{
-  if(req.session.isLogin==true){
+exports.checkinfo = (req, res) => {
+  if (req.session.isLogin === true) {
     return res.success({
-      code:200,
-      msg:req.session
+      code: 200,
+      msg: req.session
     })
   }
   return res.error({
-    code:500,
-    msg:'你还没登陆，请登录'
+    code: 500,
+    msg: '你还没登陆，请登录'
   })
 }
 
-
-exports.signin=async (req,res)=>{
-  if(req.session.isLogin==true){
-    try{
-      const result=await daily_signin({
-        cookie:req.session.cookiedata,
+exports.signin = async (req, res) => {
+  if (req.session.isLogin === true) {
+    try {
+      const result = await daily_signin({
+        cookie: req.session.cookiedata
       })
-      if(result.body.code==200){
+      if (result.body.code === 200) {
         return res.success({
-          code:200,
-          msg:{
-            msg:'签到成功',
-            point:result.body.point
+          code: 200,
+          msg: {
+            msg: '签到成功',
+            point: result.body.point
           }
         })
       }
-      if(result.body.code==-2){
+      if (result.body.code === -2) {
         return res.error({
-        code:-2,
-        msg:'请勿重复签到',
-      })
+          code: -2,
+          msg: '请勿重复签到'
+        })
       }
       return res.error({
-        code:500,
-        msg:'未知错误，稍后再试'
+        code: 500,
+        msg: '未知错误，稍后再试'
       })
-    }
-    catch(err){
+    } catch (err) {
       return res.error({
-        code:500,
-        msg:err.body
+        code: 500,
+        msg: err.body
       })
     }
   }
   return res.error({
-    code:500,
-    msg:'你还没登陆，请登录'
+    code: 500,
+    msg: '你还没登陆，请登录'
   })
 }
 
-
-exports.daka=async (req,res)=>{
-  if(req.session.userdata&&global.progess[req.session.userdata.id]){
+exports.daka = async (req, res) => {
+  if (req.session.userdata && global.progess[req.session.userdata.id]) {
     return res.error({
-      code:500,
-      msg:'请等待上一个任务结束'
+      code: 500,
+      msg: '请等待上一个任务结束'
     })
-  }
-  else if(req.session.isLogin==true){
-    try{
-      const result1=await personalized({
-        limit:350,
-        cookie:req.session.cookiedata
+  } else if (req.session.isLogin === true) {
+    try {
+      const result1 = await personalized({
+        limit: 350,
+        cookie: req.session.cookiedata
       })
-      if(result1.body.code!=200) return res.error({
-        code:500,
-        msg:'推荐歌单获取失败'
-      })
-      var count=0
-      var id=req.session.userdata.id
-      var start=true
-
-      for(var i in result1.body.result){
-        const listid=result1.body.result[i].id
-        if(!start) break
-        await playlist_detail({
-          id:listid,
-          cookie:req.session.cookiedata
-        }).then(async (result2)=>{
-          if(result2.body.code==200&&start){
-            for (var j=0;j<result2.body.playlist.tracks.length;j++){
-              const songid=result2.body.playlist.tracks[j].id
-              
-              const result3=await scrobble({
-                id:songid,
-                sourceid:listid,
-                time:61,
-                cookie:req.session.cookiedata
-              })
-              if(result3.body.code==200&&start) {
-                  count++
-                  global.progess[id]=count
-                  if(count>=350){
-                    start=false
-                  }
-              } 
-              }
-  
-            }
+      if (result1.body.code !== 200) {
+        return res.error({
+          code: 500,
+          msg: '推荐歌单获取失败'
         })
-        console.log(count)
       }
-      
-      
-      const result=await user_level({
-        cookie:req.session.cookiedata,
-        timestamp:Date.now()
+      let count = 0
+      const id = req.session.userdata.id
+
+      for (const i in result1.body.result) {
+        const listid = result1.body.result[i].id
+        await playlist_detail({
+          id: listid,
+          cookie: req.session.cookiedata
+        }).then(async (result2) => {
+          if (result2.body.code === 200) {
+            for (let j = 0, len = result2.body.playlist.tracks.length; j < len; ++j) {
+              const result3 = await scrobble({
+                id: result2.body.playlist.tracks[j].id,
+                sourceid: listid,
+                time: 61,
+                cookie: req.session.cookiedata
+              })
+              if (result3.body.code === 200) {
+                ++count
+                global.progess[id] = count
+              }
+            }
+          }
+        })
+        if (count > 350) break
+      }
+
+      const result = await user_level({
+        cookie: req.session.cookiedata,
+        timestamp: Date.now()
       })
-      if(result.body.code==200){
-      req.session.userdata.playcount=result.body.data.nextPlayCount-result.body.data.nowPlayCount
+      if (result.body.code === 200) {
+        req.session.userdata.playcount = result.body.data.nextPlayCount - result.body.data.nowPlayCount
       }
       delete global.progess[id]
 
-      if(count>=350) {
-      return res.success({
-        code:200,
-        count:count
-      })
+      if (count >= 350) {
+        return res.success({
+          code: 200,
+          count
+        })
       }
       return res.error({
-        code:500,
-        msg:'未知错误，稍后重试'
+        code: 500,
+        msg: '未知错误，稍后重试'
       })
-
-    }
-    catch(err){
+    } catch (err) {
       console.log(err)
       return res.error({
-        code:500,
-        msg:err.body?err.body:err
+        code: 500,
+        msg: err.body ? err.body : err
       })
     }
   }
   return res.error({
-    code:500,
-    msg:'你还没登陆，请登录'
+    code: 500,
+    msg: '你还没登陆，请登录'
   })
 }
 
-
-exports.dakaprogress=(req,res)=>{
-  if(req.session.isLogin!=true){
+exports.dakaprogress = (req, res) => {
+  if (req.session.isLogin !== true) {
     return res.error({
-      code:500,
-      msg:'你还没登陆，请登录'
+      code: 500,
+      msg: '你还没登陆，请登录'
     })
   }
-  if(!global.progess[req.session.userdata.id]){
+  if (!global.progess[req.session.userdata.id]) {
     return res.error({
-      code:500,
-      msg:'请先开始打卡任务'
+      code: 500,
+      msg: '请先开始打卡任务'
     })
   }
   return res.success({
-    code:200,
-    count:global.progess[req.session.userdata.id]
+    code: 200,
+    count: global.progess[req.session.userdata.id]
   })
 }
 
-exports.getversion=(req,res)=>{
+exports.getversion = (req, res) => {
   res.success({
-    code:200,
-    msg:global.progess.version
+    code: 200,
+    msg: global.progess.version
   })
 }
 
-exports.noFound=(req,res)=>{
-    return res.error({
-        code:404,
-        msg:'Not Found'
-    })
+exports.noFound = (req, res) => {
+  return res.error({
+    code: 404,
+    msg: 'Not Found'
+  })
 }
