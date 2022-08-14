@@ -164,25 +164,26 @@ exports.daka = async (req, res) => {
 
       for (const i in result1.body.result) {
         const listid = result1.body.result[i].id
-        await playlist_detail({
+        const result2 = await playlist_detail({
           id: listid,
           cookie: req.session.cookiedata
-        }).then(async (result2) => {
-          if (result2.body.code === 200) {
-            for (let j = 0, len = result2.body.playlist.tracks.length; j < len; ++j) {
-              const result3 = await scrobble({
-                id: result2.body.playlist.tracks[j].id,
-                sourceid: listid,
-                time: 61,
-                cookie: req.session.cookiedata
-              })
-              if (result3.body.code === 200) {
-                ++count
-                global.progess[id] = count
-              }
+        })
+        if (result2.body.code === 200) {
+          for (let j = 0, len = result2.body.playlist.tracks.length; j < len; ++j) {
+            const result3 = await scrobble({
+              id: result2.body.playlist.tracks[j].id,
+              sourceid: listid,
+              time: 61,
+              cookie: req.session.cookiedata
+            })
+
+            if (result3.body.code === 200) {
+              ++count
+              global.progess[id] = count
             }
           }
-        })
+        }
+
         if (count > 350) break
       }
 
