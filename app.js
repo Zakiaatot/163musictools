@@ -4,7 +4,9 @@ const ejs=require('ejs')
 const session=require('express-session')
 const ev = require('express-validation')
 const path=require('path')
+const fs=require('fs')
 const apiRouter = require('./router/api')
+const { json } = require('express')
 
 
 const app=express()
@@ -87,9 +89,21 @@ app.use(function (err, req, res,next) {
     })
 })
 
-app.listen(9001,()=>{
-    console.log('http://localhost:9001')
+app.listen(9002,()=>{
+    console.log('Running in \nhttp://localhost:9002')
     //全局变量用于实现返回打卡任务的实时进度
     global.progess={}
+    file=path.join(__dirname,'package.json')
+    //获取版本信息
+    fs.readFile(file,'utf-8',(err,data)=>{
+        if(err){
+            global.progess.version='unknow'
+        }
+        else{
+            global.progess.version=JSON.parse(data).version
+            console.log('Version:'+global.progess.version)
+        }
+    })
+    
 })
 //启动

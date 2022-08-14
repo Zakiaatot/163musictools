@@ -242,7 +242,7 @@ const APP={
                 isfinish=true
                 this.showstatus=true
                 dakabtn.innerHTML="打卡"
-                this.updateuserinfo()
+                
                 setTimeout(() => {
                     this.dakabtnstatus=false
                     this.elmmsg2={
@@ -264,11 +264,13 @@ const APP={
                                 promsg.innerHTML="已听："+response.data.msg.count+"首"
                         }
                         if(isfinish){
-                                clearInterval(lx)
+                            this.updateuserinfo()
+                            clearInterval(lx)
+                                
                         }
                         })
                 }, 100)
-            },1000);
+            },500);
         },
         logout(){
             this.logoutbtnstatus=true
@@ -381,6 +383,14 @@ const APP={
                     loading.close()
                 }, 1000);
             })
+        $axios.post('/getversion').then((res)=>{
+            console.log(res)
+            if(res.status==200){
+                const version=document.querySelectorAll('.version')
+                version[0].innerHTML=res.data.msg.msg
+                version[1].innerHTML=res.data.msg.msg
+            }
+        })
     },
     computed:{
         reg(){

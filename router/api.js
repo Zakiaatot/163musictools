@@ -11,6 +11,7 @@ router.post('/checkinfo',apiHandler.checkinfo)
 router.post('/signin',apiHandler.signin)
 router.post('/daka',apiHandler.daka)
 router.post('/dakaprogress',apiHandler.dakaprogress)
+router.post('/getversion',apiHandler.getversion)
 router.post('*',apiHandler.noFound)
 
 

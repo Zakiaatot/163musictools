@@ -155,7 +155,7 @@ exports.daka=async (req,res)=>{
   else if(req.session.isLogin==true){
     try{
       const result1=await personalized({
-        limit:300,
+        limit:350,
         cookie:req.session.cookiedata
       })
       if(result1.body.code!=200) return res.error({
@@ -168,46 +168,51 @@ exports.daka=async (req,res)=>{
 
       for(var i in result1.body.result){
         const listid=result1.body.result[i].id
-        const result2=await playlist_detail({
+        if(!start) break
+        await playlist_detail({
           id:listid,
           cookie:req.session.cookiedata
-        })
-        if(result2.body.code==200){
-          for (var j=0;j<result2.body.playlist.tracks.length;j++){
-            const songid=result2.body.playlist.tracks[j].id
-            
-            scrobble({
-              id:songid,
-              sourceid:listid,
-              time:61,
-              cookie:req.session.cookiedata
-            }).then((result3)=>{
+        }).then(async (result2)=>{
+          if(result2.body.code==200&&start){
+            for (var j=0;j<result2.body.playlist.tracks.length;j++){
+              const songid=result2.body.playlist.tracks[j].id
+              
+              const result3=await scrobble({
+                id:songid,
+                sourceid:listid,
+                time:61,
+                cookie:req.session.cookiedata
+              })
               if(result3.body.code==200&&start) {
-                count++
-                global.progess[id]=count
+                  count++
+                  global.progess[id]=count
+                  if(count>=350){
+                    start=false
+                  }
+              } 
               }
-            })
+  
             }
-
-          }
-          if(count>=350) {
-            start=false
-            const result=await user_level({
-              cookie:req.session.cookiedata,
-              timestamp:Date.now()
-            })
-            if(result.body.code==200){
-            req.session.userdata.playcount=result.body.data.nextPlayCount-result.body.data.nowPlayCount
-            }
-            delete global.progess[id]
-            return res.success({
-              code:200,
-              count:count
-            })
-          }
+        })
+        console.log(count)
       }
       
+      
+      const result=await user_level({
+        cookie:req.session.cookiedata,
+        timestamp:Date.now()
+      })
+      if(result.body.code==200){
+      req.session.userdata.playcount=result.body.data.nextPlayCount-result.body.data.nowPlayCount
+      }
+      delete global.progess[id]
 
+      if(count>=350) {
+      return res.success({
+        code:200,
+        count:count
+      })
+      }
       return res.error({
         code:500,
         msg:'未知错误，稍后重试'
@@ -248,7 +253,12 @@ exports.dakaprogress=(req,res)=>{
   })
 }
 
-
+exports.getversion=(req,res)=>{
+  res.success({
+    code:200,
+    msg:global.progess.version
+  })
+}
 
 exports.noFound=(req,res)=>{
     return res.error({
